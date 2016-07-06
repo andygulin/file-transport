@@ -1,0 +1,16 @@
+package foo;
+
+option optimize_for = CODE_SIZE;
+option java_package = "file.transport.model";
+
+message TransportPiece {
+  required string dest = 1;
+  optional bytes content = 2;
+  enum WriteMode {
+    OVERWRITE = 1;
+    SKIP = 2;
+    DELETE = 3;
+  }
+  optional WriteMode mode = 3;
+  optional int32 pieceNum = 4;
+}
