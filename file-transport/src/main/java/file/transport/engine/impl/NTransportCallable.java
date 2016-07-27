@@ -156,5 +156,4 @@ public class NTransportCallable implements Callable<String> {
 			throw new TransportException("create outputstream error.", e);
 		}
 	}
-
 }

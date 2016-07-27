@@ -16,7 +16,6 @@ public class SocketUtils {
 	public static int TIMEOUT_SECONDS = -1;
 
 	static {
-
 		String key = "storage.timeout";
 		boolean isSysPropSuccess = false;
 

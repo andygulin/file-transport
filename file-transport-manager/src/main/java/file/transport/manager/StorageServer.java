@@ -88,5 +88,4 @@ public class StorageServer {
 		StorageServer server = new StorageServer(port, storePath);
 		server.start();
 	}
-
 }

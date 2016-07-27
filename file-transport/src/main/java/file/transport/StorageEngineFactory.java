@@ -35,5 +35,4 @@ public class StorageEngineFactory {
 	public static StorageEngineFactory getInstance() {
 		return SINGLE;
 	}
-
 }

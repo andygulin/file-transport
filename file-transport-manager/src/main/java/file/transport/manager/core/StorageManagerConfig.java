@@ -13,5 +13,4 @@ public class StorageManagerConfig {
 			.normalizeNoEndSeparator(SystemUtils.getUserHome().getAbsolutePath() + File.separator + "beauty-storage");
 
 	public static int port = 1228;
-
 }

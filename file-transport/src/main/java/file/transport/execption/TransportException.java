@@ -44,5 +44,4 @@ public class TransportException extends Exception {
 	public int getErrorCode() {
 		return errorCode;
 	}
-
 }

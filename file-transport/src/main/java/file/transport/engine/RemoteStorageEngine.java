@@ -25,5 +25,4 @@ public interface RemoteStorageEngine {
 	void removeNode(String... url);
 
 	void removeAllNode();
-
 }

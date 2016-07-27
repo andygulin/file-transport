@@ -164,5 +164,4 @@ public class StorageMessage {
 			FileUtils.deleteQuietly(file);
 		}
 	}
-
 }

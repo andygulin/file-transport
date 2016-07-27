@@ -19,5 +19,4 @@ public class ClientSocketThreadPool {
 	public static void shutdown() {
 		pool.shutdown();
 	}
-
 }

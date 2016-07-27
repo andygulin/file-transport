@@ -44,5 +44,4 @@ public class TransportRuntimeException extends RuntimeException {
 	public void setErrorCode(int errorCode) {
 		this.errorCode = errorCode;
 	}
-
 }
