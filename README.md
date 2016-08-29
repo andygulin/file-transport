@@ -4,9 +4,9 @@
 ```
 cd file-transport
 mvn clean package
-scp file-transport-manager/target/file-transport-manager-0.0.1-SNAPSHOT-jar-with-dependencies.jar root@192.168.209.128:/root
+scp file-transport-manager/target/file-transport-manager-0.0.1-jar-with-dependencies.jar root@192.168.209.128:/root
 启动监听程序
-nohup java -jar file-transport-manager-0.0.1-SNAPSHOT-jar-with-dependencies.jar -p1228 /data > file-transport.log &
+nohup java -jar file-transport-manager-0.0.1-jar-with-dependencies.jar -p1228 /data > file-transport.log &
 比如IP为192.168.209.128，监听端口为1228，上传目录为/data
 ```
 

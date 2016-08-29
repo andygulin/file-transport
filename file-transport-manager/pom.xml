@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>file.transport</groupId>
 		<artifactId>file-transport-pom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<artifactId>file-transport-manager</artifactId>
 	<name>file-transport-manager</name>

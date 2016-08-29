@@ -22,9 +22,9 @@ public class StorageConfigUtils {
 		String propFileName = "storage.cfg.properties";
 		try {
 			cfg = new PropertiesConfiguration(StorageConfigUtils.class.getClassLoader().getResource(propFileName));
-			STORAGE_TEMP_DIR = System.getProperty("java.io.tmpdir") + File.separator + "yicha-commons-storage"
+			STORAGE_TEMP_DIR = System.getProperty("java.io.tmpdir") + File.separator + "file-transport-storage"
 					+ File.separator + "temp";
-			STORAGE_DIR = System.getProperty("java.io.tmpdir") + File.separator + "yicha-commons-storage"
+			STORAGE_DIR = System.getProperty("java.io.tmpdir") + File.separator + "file-transport-storage"
 					+ File.separator + "data";
 			FolderUtils.mkdirs(STORAGE_DIR, STORAGE_TEMP_DIR);
 		} catch (ConfigurationException e) {
