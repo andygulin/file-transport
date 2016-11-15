@@ -13,8 +13,8 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<protostuff.version>1.0.10</protostuff.version>
-		<fastjson.version>1.2.12</fastjson.version>
+		<protostuff.version>1.0.12</protostuff.version>
+		<fastjson.version>1.2.20</fastjson.version>
 	</properties>
 
 	<dependencies>
