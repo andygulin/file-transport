@@ -2,7 +2,7 @@ package file.transport.model;
 
 public interface TransportHandler {
 
-	void onError(String errorMessage);
+    void onError(String errorMessage);
 
-	void onSuccess();
+    void onSuccess();
 }

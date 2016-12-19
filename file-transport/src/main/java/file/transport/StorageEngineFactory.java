@@ -8,31 +8,29 @@ import file.transport.utils.StorageConfigUtils;
 
 public class StorageEngineFactory {
 
-	private RemoteStorageEngine remoteStorageEngine;
+    private static final StorageEngineFactory SINGLE = new StorageEngineFactory();
+    private RemoteStorageEngine remoteStorageEngine;
+    private SerializeEngine serializeEngine;
 
-	private SerializeEngine serializeEngine;
+    private StorageEngineFactory() {
+    }
 
-	public synchronized SerializeEngine getSerializeEngine() {
-		if (this.serializeEngine == null) {
-			this.serializeEngine = new SerializeEngineImpl();
-		}
-		return serializeEngine;
-	}
+    public static StorageEngineFactory getInstance() {
+        return SINGLE;
+    }
 
-	public synchronized RemoteStorageEngine getRemoteStorageEngine() {
-		if (this.remoteStorageEngine == null) {
-			this.remoteStorageEngine = new RemoteStorageEngineImpl(
-					StorageConfigUtils.getConfiguration().getStringArray("storage.nodes"));
-		}
-		return remoteStorageEngine;
-	}
+    public synchronized SerializeEngine getSerializeEngine() {
+        if (this.serializeEngine == null) {
+            this.serializeEngine = new SerializeEngineImpl();
+        }
+        return serializeEngine;
+    }
 
-	private static final StorageEngineFactory SINGLE = new StorageEngineFactory();
-
-	private StorageEngineFactory() {
-	}
-
-	public static StorageEngineFactory getInstance() {
-		return SINGLE;
-	}
+    public synchronized RemoteStorageEngine getRemoteStorageEngine() {
+        if (this.remoteStorageEngine == null) {
+            this.remoteStorageEngine = new RemoteStorageEngineImpl(
+                    StorageConfigUtils.getConfiguration().getStringArray("storage.nodes"));
+        }
+        return remoteStorageEngine;
+    }
 }

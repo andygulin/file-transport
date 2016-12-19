@@ -11,7 +11,7 @@ nohup java -jar file-transport-manager-0.0.1-jar-with-dependencies.jar -p1228 /d
 ```
 
 ### 测试
-```
+```java
 import java.io.File;
 import java.util.Collection;
 
