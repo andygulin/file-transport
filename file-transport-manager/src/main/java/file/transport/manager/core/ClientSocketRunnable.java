@@ -11,7 +11,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Iterator;
 import java.util.UUID;
@@ -32,8 +39,7 @@ public class ClientSocketRunnable implements Runnable {
         InputStream input = null;
         OutputStream output = null;
 
-        String newPath = FilenameUtils.normalizeNoEndSeparator(
-                StorageManagerConfig.TMP_DIR + File.separator + UUID.randomUUID().toString() + ".storage", true);
+        String newPath = FilenameUtils.normalizeNoEndSeparator(StorageManagerConfig.TMP_DIR + File.separator + UUID.randomUUID().toString() + ".storage", true);
         OutputStream out = null;
 
         try {
