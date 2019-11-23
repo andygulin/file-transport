@@ -11,11 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 public class RemoteStorageEngineImpl implements RemoteStorageEngine {
@@ -48,7 +44,7 @@ public class RemoteStorageEngineImpl implements RemoteStorageEngine {
 
     @Override
     public String[] nodes() {
-        return this.nodes.toArray(new String[this.nodes.size()]);
+        return this.nodes.toArray(new String[0]);
     }
 
     @Override
@@ -126,7 +122,7 @@ public class RemoteStorageEngineImpl implements RemoteStorageEngine {
         if (arr.length != 2 || ValidateUtils.isNotIPv4(arr[0]) || ValidateUtils.isNotNumeric(arr[1])) {
             return null;
         }
-        final int foo = Integer.valueOf(arr[1]);
+        final int foo = Integer.parseInt(arr[1]);
         if (foo < 1 || foo > 65535) {
             return null;
         }

@@ -11,15 +11,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
@@ -31,11 +23,10 @@ public class NTransportCallable implements Callable<String> {
     private String[] nodes;
     private File serFile;
 
-    public NTransportCallable(StorageMessage message, String[] nodes) {
+    NTransportCallable(StorageMessage message, String[] nodes) {
         this.message = message;
         this.nodes = nodes;
-        this.serFile = new File(
-                StorageConfigUtils.getStorageDir() + File.separator + UUID.randomUUID().toString() + ".ser");
+        this.serFile = new File(StorageConfigUtils.getStorageDir() + File.separator + UUID.randomUUID().toString() + ".ser");
     }
 
     public String call() throws Exception {

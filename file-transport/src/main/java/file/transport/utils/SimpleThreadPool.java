@@ -3,11 +3,7 @@ package file.transport.utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class SimpleThreadPool {
     private static SimpleThreadPool INSTANCE = null;
@@ -18,14 +14,14 @@ public class SimpleThreadPool {
         }
     }
 
-    private ExecutorService pool = null;
+    private ExecutorService pool;
 
     private SimpleThreadPool() {
         int cpuNums = Runtime.getRuntime().availableProcessors();
         pool = Executors.newFixedThreadPool(cpuNums * 8);
     }
 
-    public static final SimpleThreadPool getInstance() {
+    public static SimpleThreadPool getInstance() {
         return INSTANCE;
     }
 

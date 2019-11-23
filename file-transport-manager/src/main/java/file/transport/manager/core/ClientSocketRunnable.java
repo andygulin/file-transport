@@ -11,14 +11,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.Iterator;
 import java.util.UUID;
@@ -47,9 +40,9 @@ public class ClientSocketRunnable implements Runnable {
             output = this.socket.getOutputStream();
 
             File newFile = new File(newPath);
-            File pfile = newFile.getParentFile();
-            if (!pfile.exists() || pfile.isFile()) {
-                pfile.mkdirs();
+            File pFile = newFile.getParentFile();
+            if (!pFile.exists() || pFile.isFile()) {
+                pFile.mkdirs();
             }
 
             if (newFile.exists()) {
@@ -61,7 +54,7 @@ public class ClientSocketRunnable implements Runnable {
             out = new BufferedOutputStream(new FileOutputStream(newFile));
 
             byte[] buffer = new byte[4096];
-            int n = 0;
+            int n;
             while ((n = input.read(buffer)) != -1) {
                 out.write(buffer, 0, n);
                 out.flush();
@@ -97,7 +90,7 @@ public class ClientSocketRunnable implements Runnable {
             log.debug("----------------------------------------");
         }
 
-        InputStream inputStream = null;
+        InputStream inputStream;
         try {
             inputStream = new BufferedInputStream(new FileInputStream(file));
 

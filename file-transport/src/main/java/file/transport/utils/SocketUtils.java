@@ -21,7 +21,7 @@ public class SocketUtils {
         if (System.getProperties().containsKey(key)) {
             String foo = System.getProperty(key);
             if (StringUtils.isNotBlank(foo) && StringUtils.isNumeric(foo)) {
-                TIMEOUT_SECONDS = Integer.valueOf(foo);
+                TIMEOUT_SECONDS = Integer.parseInt(foo);
                 isSysPropSuccess = true;
             }
         }
@@ -34,7 +34,7 @@ public class SocketUtils {
         }
     }
 
-    public static final void send(String ip, int port, InputStream from) throws TransportException {
+    public static void send(String ip, int port, InputStream from) throws TransportException {
         Socket socket = null;
         InputStream input = null;
         OutputStream output = null;
@@ -49,7 +49,7 @@ public class SocketUtils {
             input = socket.getInputStream();
 
             byte[] buffer = new byte[1024];
-            int n = 0;
+            int n;
             while ((n = from.read(buffer)) != -1) {
                 output.write(buffer, 0, n);
                 output.flush();

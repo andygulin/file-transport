@@ -37,8 +37,7 @@ public class SerializeEngineImpl implements SerializeEngine {
             if (StringUtils.equals("/", message.getDirectory()) || StringUtils.isBlank(message.getDirectory())) {
                 piece.setDest(FilenameUtils.normalizeNoEndSeparator("/" + entry.getKey(), true));
             } else {
-                piece.setDest(
-                        FilenameUtils.normalizeNoEndSeparator(message.getDirectory() + "/" + entry.getKey(), true));
+                piece.setDest(FilenameUtils.normalizeNoEndSeparator(message.getDirectory() + "/" + entry.getKey(), true));
             }
             final WriteMode wm = WriteMode.SKIP.equals(message.getWriteMode()) ? WriteMode.SKIP : WriteMode.OVERWRITE;
             piece.setMode(wm);
@@ -92,7 +91,7 @@ public class SerializeEngineImpl implements SerializeEngine {
 
         private TransportPiece message;
 
-        public InnerIterator(InputStream input) {
+        InnerIterator(InputStream input) {
             this.input = input;
         }
 

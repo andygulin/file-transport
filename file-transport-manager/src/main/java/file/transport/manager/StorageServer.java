@@ -21,18 +21,18 @@ public class StorageServer {
 
     private ServerSocket serverSocket;
 
-    public StorageServer(int port, String storePath) throws IOException {
-        File datadir = new File(FilenameUtils.normalizeNoEndSeparator(storePath, true));
-        if (!datadir.exists()) {
-            boolean success = datadir.mkdirs();
+    private StorageServer(int port, String storePath) throws IOException {
+        File dataDir = new File(FilenameUtils.normalizeNoEndSeparator(storePath, true));
+        if (!dataDir.exists()) {
+            boolean success = dataDir.mkdirs();
             if (!success) {
-                throw new IOException("create folder error: " + datadir);
+                throw new IOException("create folder error: " + dataDir);
             }
         }
 
         // 初始化参数
         StorageManagerConfig.port = port;
-        StorageManagerConfig.ROOT_DIR = FilenameUtils.normalizeNoEndSeparator(datadir.getAbsolutePath(), true);
+        StorageManagerConfig.ROOT_DIR = FilenameUtils.normalizeNoEndSeparator(dataDir.getAbsolutePath(), true);
     }
 
     public static void main(String[] args) throws IOException {
@@ -45,7 +45,7 @@ public class StorageServer {
         }
 
         String storePath = args[1];
-        int port = Integer.valueOf(args[0].substring(2));
+        int port = Integer.parseInt(args[0].substring(2));
 
         StorageServer server = new StorageServer(port, storePath);
         server.start();
@@ -56,7 +56,7 @@ public class StorageServer {
         ClientSocketThreadPool.shutdown();
     }
 
-    public void start() throws IOException {
+    private void start() throws IOException {
         serverSocket = new ServerSocket(StorageManagerConfig.port);
         if (log.isInfoEnabled()) {
             log.info("Storage Server start success!");

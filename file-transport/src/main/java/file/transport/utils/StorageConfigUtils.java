@@ -12,10 +12,10 @@ import java.io.File;
 public class StorageConfigUtils {
     private static transient final Log log = LogFactory.getLog(StorageConfigUtils.class);
 
-    private static Configuration cfg = null;
+    private static Configuration cfg;
 
-    private static String STORAGE_TEMP_DIR = null;
-    private static String STORAGE_DIR = null;
+    private static String STORAGE_TEMP_DIR;
+    private static String STORAGE_DIR;
 
     static {
         String propFileName = "storage.cfg.properties";
