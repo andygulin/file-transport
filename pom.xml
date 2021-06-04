@@ -17,7 +17,7 @@
         <commons-io.version>2.6</commons-io.version>
         <commons-codec.version>1.13</commons-codec.version>
         <httpcore.version>4.4.12</httpcore.version>
-        <httpclient.version>4.5.10</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <httpmime.version>4.5.10</httpmime.version>
 
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
