@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class SimpleThreadPool {
-    private static SimpleThreadPool INSTANCE = null;
+    private static final SimpleThreadPool INSTANCE;
 
     static {
         synchronized (SimpleThreadPool.class) {
@@ -14,7 +14,7 @@ public class SimpleThreadPool {
         }
     }
 
-    private ExecutorService pool;
+    private final ExecutorService pool;
 
     private SimpleThreadPool() {
         int cpuNums = Runtime.getRuntime().availableProcessors();

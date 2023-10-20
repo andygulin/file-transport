@@ -11,11 +11,11 @@
     </parent>
     <artifactId>file-transport</artifactId>
     <name>file-transport</name>
-    <url>http://maven.apache.org</url>
+    <url>https://maven.apache.org</url>
 
     <properties>
         <protostuff.version>1.0.12</protostuff.version>
-        <fastjson.version>1.2.62</fastjson.version>
+        <fastjson2.version>2.0.41</fastjson2.version>
     </properties>
 
     <dependencies>
@@ -35,9 +35,9 @@
             <version>${protostuff.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
         </dependency>
     </dependencies>
 </project>

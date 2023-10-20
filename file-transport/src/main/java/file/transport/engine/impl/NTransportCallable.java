@@ -12,25 +12,26 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
 public class NTransportCallable implements Callable<String> {
 
-    private static transient final Log log = LogFactory.getLog(NTransportCallable.class);
+    private static final Log log = LogFactory.getLog(NTransportCallable.class);
 
-    private StorageMessage message;
-    private String[] nodes;
-    private File serFile;
+    private final StorageMessage message;
+    private final String[] nodes;
+    private final File serFile;
 
     NTransportCallable(StorageMessage message, String[] nodes) {
         this.message = message;
         this.nodes = nodes;
-        this.serFile = new File(StorageConfigUtils.getStorageDir() + File.separator + UUID.randomUUID().toString() + ".ser");
+        this.serFile = new File(StorageConfigUtils.getStorageDir() + File.separator + UUID.randomUUID() + ".ser");
     }
 
     public String call() throws Exception {
-        this.serilize();
+        this.serialize();
         Thread[] threads = new Thread[this.nodes.length];
         ProcessResult[] results = new ProcessResult[this.nodes.length];
 
@@ -55,7 +56,7 @@ public class NTransportCallable implements Callable<String> {
         return "success";
     }
 
-    private void serilize() throws TransportException {
+    private void serialize() throws TransportException {
         SerializeEngine engine = StorageEngineFactory.getInstance().getSerializeEngine();
         OutputStream output;
         try {
@@ -69,10 +70,10 @@ public class NTransportCallable implements Callable<String> {
                 this.message.destroy();
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new TransportException("no such file: " + this.serFile.getAbsolutePath());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new TransportException("create outputstream error.", e);
         }
     }
@@ -111,15 +112,15 @@ public class NTransportCallable implements Callable<String> {
 
     private static class FileSendRunnable implements Runnable {
 
-        private String dest;
-        private int port;
-        private File sourceFile;
-        private ProcessResult result;
+        private final String dest;
+        private final int port;
+        private final File sourceFile;
+        private final ProcessResult result;
 
         public FileSendRunnable(String host, File sourceFile, ProcessResult result) {
             String[] str = host.split(":");
             this.dest = str[0];
-            this.port = Integer.valueOf(str[1]);
+            this.port = Integer.parseInt(str[1]);
             this.sourceFile = sourceFile;
             this.result = result;
         }
@@ -129,21 +130,19 @@ public class NTransportCallable implements Callable<String> {
             InputStream in = null;
             long mills = System.currentTimeMillis();
             try {
-                in = new BufferedInputStream(new FileInputStream(this.sourceFile));
+                in = new BufferedInputStream(Files.newInputStream(this.sourceFile.toPath()));
                 SocketUtils.send(this.dest, this.port, in);
                 this.result.setSuccess(true);
                 this.result.setCostTime(System.currentTimeMillis() - mills);
             } catch (Throwable e) {
                 this.result.setSuccess(false);
-                e.printStackTrace();
+                log.error(e.getMessage());
                 if (log.isErrorEnabled()) {
                     log.error("send file to " + this.dest + ":" + this.port + " failed: ", e);
                 }
             } finally {
                 IOUtils.closeQuietly(in);
             }
-
         }
-
     }
 }

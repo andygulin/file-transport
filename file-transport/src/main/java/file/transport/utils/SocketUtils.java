@@ -4,6 +4,8 @@ import file.transport.execption.TransportException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +14,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class SocketUtils {
+
+    private static final Log log = LogFactory.getLog(StorageConfigUtils.class);
+
     public static int TIMEOUT_SECONDS = -1;
 
     static {
@@ -55,10 +60,10 @@ public class SocketUtils {
                 output.flush();
             }
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new TransportException("host unknow error: " + ip + ":" + port, e);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new TransportException("socket transport to " + ip + ":" + port + " error: ", e);
         } finally {
             IOUtils.closeQuietly(input);
@@ -66,7 +71,7 @@ public class SocketUtils {
             try {
                 socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
                 throw new TransportException("close socket " + ip + ":" + port + " error: ", e);
             }
         }

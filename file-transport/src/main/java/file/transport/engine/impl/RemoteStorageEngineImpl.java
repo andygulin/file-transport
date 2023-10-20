@@ -18,7 +18,7 @@ public class RemoteStorageEngineImpl implements RemoteStorageEngine {
 
     static final Log log = LogFactory.getLog(RemoteStorageEngineImpl.class);
 
-    private Set<String> nodes = new LinkedHashSet<>();
+    private final Set<String> nodes = new LinkedHashSet<>();
 
     public RemoteStorageEngineImpl(String[] nodes) {
         for (String foo : nodes) {
@@ -101,12 +101,12 @@ public class RemoteStorageEngineImpl implements RemoteStorageEngine {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            String errmsg = "execute transport tasks error: ";
+            log.error(e.getMessage());
+            String errMsg = "execute transport tasks error: ";
             if (log.isErrorEnabled()) {
-                log.error(errmsg, e);
+                log.error(errMsg, e);
             }
-            throw new TransportException(errmsg, e);
+            throw new TransportException(errMsg, e);
         }
     }
 

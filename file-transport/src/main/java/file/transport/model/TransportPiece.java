@@ -189,7 +189,7 @@ public final class TransportPiece implements Externalizable, Message<TransportPi
 
         public final int number;
 
-        private WriteMode(int number) {
+        WriteMode(int number) {
             this.number = number;
         }
 

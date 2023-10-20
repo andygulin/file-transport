@@ -7,18 +7,18 @@
     <version>0.0.1</version>
     <packaging>pom</packaging>
     <name>file-transport-pom</name>
-    <url>http://maven.apache.org</url>
+    <url>https://maven.apache.org</url>
 
     <properties>
         <compile.level>1.8</compile.level>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <commons-configuration.version>1.10</commons-configuration.version>
-        <commons-io.version>2.6</commons-io.version>
-        <commons-codec.version>1.13</commons-codec.version>
-        <httpcore.version>4.4.12</httpcore.version>
-        <httpclient.version>4.5.10</httpclient.version>
-        <httpmime.version>4.5.10</httpmime.version>
+        <commons-io.version>2.14.0</commons-io.version>
+        <commons-codec.version>1.16.0</commons-codec.version>
+        <httpcore.version>4.4.14</httpcore.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <httpmime.version>4.5.13</httpmime.version>
 
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-source-plugin.version>3.2.0</maven-source-plugin.version>

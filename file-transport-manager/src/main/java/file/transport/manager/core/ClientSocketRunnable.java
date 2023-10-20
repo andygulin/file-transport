@@ -13,6 +13,8 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.UUID;
 
@@ -20,7 +22,7 @@ public class ClientSocketRunnable implements Runnable {
 
     private static final Log log = LogFactory.getLog(ClientSocketRunnable.class);
 
-    private Socket socket;
+    private final Socket socket;
 
     public ClientSocketRunnable(Socket socket) {
         this.socket = socket;
@@ -32,7 +34,7 @@ public class ClientSocketRunnable implements Runnable {
         InputStream input = null;
         OutputStream output = null;
 
-        String newPath = FilenameUtils.normalizeNoEndSeparator(StorageManagerConfig.TMP_DIR + File.separator + UUID.randomUUID().toString() + ".storage", true);
+        String newPath = FilenameUtils.normalizeNoEndSeparator(StorageManagerConfig.TMP_DIR + File.separator + UUID.randomUUID() + ".storage", true);
         OutputStream out = null;
 
         try {
@@ -51,7 +53,7 @@ public class ClientSocketRunnable implements Runnable {
 
             newFile.createNewFile();
 
-            out = new BufferedOutputStream(new FileOutputStream(newFile));
+            out = new BufferedOutputStream(Files.newOutputStream(newFile.toPath()));
 
             byte[] buffer = new byte[4096];
             int n;
@@ -63,7 +65,7 @@ public class ClientSocketRunnable implements Runnable {
 
             this.processMessageFromFile(newPath);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             String errorMsg = "recieve client message error: ";
             throw new TransportRuntimeException(errorMsg, e);
         } finally {
@@ -72,7 +74,7 @@ public class ClientSocketRunnable implements Runnable {
             try {
                 this.socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
                 final String foo = "close client socket error: ";
                 if (log.isErrorEnabled()) {
                     log.error(foo, e);
@@ -92,7 +94,7 @@ public class ClientSocketRunnable implements Runnable {
 
         InputStream inputStream;
         try {
-            inputStream = new BufferedInputStream(new FileInputStream(file));
+            inputStream = new BufferedInputStream(Files.newInputStream(Paths.get(file)));
 
             Iterator<TransportPiece> it = StorageEngineFactory.getInstance().getSerializeEngine().dser(inputStream);
 
@@ -109,7 +111,7 @@ public class ClientSocketRunnable implements Runnable {
                 log.debug("----------------------------------------");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             if (log.isErrorEnabled()) {
                 log.error("----------------------------------------");
                 log.error("process message from file " + file + " ERROR!!!");
@@ -151,7 +153,7 @@ public class ClientSocketRunnable implements Runnable {
         try {
             destFile.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             if (log.isErrorEnabled()) {
                 log.error("create dest file failed: " + destFile.getAbsolutePath(), e);
             }
@@ -159,10 +161,10 @@ public class ClientSocketRunnable implements Runnable {
         }
         OutputStream output = null;
         try {
-            output = new BufferedOutputStream(new FileOutputStream(destFile));
+            output = new BufferedOutputStream(Files.newOutputStream(destFile.toPath()));
             ByteString.writeTo(output, piece.getContent());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             if (log.isErrorEnabled()) {
                 log.error("write dest file failed: " + destFile.getAbsolutePath(), e);
             }

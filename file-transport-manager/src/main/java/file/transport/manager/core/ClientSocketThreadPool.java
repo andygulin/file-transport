@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ClientSocketThreadPool {
-    private static ExecutorService pool;
+    private static final ExecutorService pool;
 
     static {
         synchronized (ClientSocketThreadPool.class) {

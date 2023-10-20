@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 
 public class SerializeEngineImpl implements SerializeEngine {
 
-    private static transient final Log log = LogFactory.getLog(SerializeEngineImpl.class);
+    private static final Log log = LogFactory.getLog(SerializeEngineImpl.class);
 
     @Override
     public void ser(OutputStream output, StorageMessage message) throws TransportException {
@@ -87,7 +87,7 @@ public class SerializeEngineImpl implements SerializeEngine {
 
     private static class InnerIterator implements Iterator<TransportPiece> {
 
-        private InputStream input;
+        private final InputStream input;
 
         private TransportPiece message;
 

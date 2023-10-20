@@ -10,12 +10,12 @@ import org.apache.commons.logging.LogFactory;
 import java.io.File;
 
 public class StorageConfigUtils {
-    private static transient final Log log = LogFactory.getLog(StorageConfigUtils.class);
+    private static final Log log = LogFactory.getLog(StorageConfigUtils.class);
 
-    private static Configuration cfg;
+    private static final Configuration cfg;
 
-    private static String STORAGE_TEMP_DIR;
-    private static String STORAGE_DIR;
+    private static final String STORAGE_TEMP_DIR;
+    private static final String STORAGE_DIR;
 
     static {
         String propFileName = "storage.cfg.properties";
@@ -27,7 +27,7 @@ public class StorageConfigUtils {
                     + File.separator + "data";
             FolderUtils.mkdirs(STORAGE_DIR, STORAGE_TEMP_DIR);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             String errorMsg = "load " + propFileName + " error: ";
             if (log.isErrorEnabled()) {
                 log.error(errorMsg, e);
@@ -39,15 +39,15 @@ public class StorageConfigUtils {
     private StorageConfigUtils() {
     }
 
-    public static final Configuration getConfiguration() {
+    public static Configuration getConfiguration() {
         return cfg;
     }
 
-    public static final String getStorageTempDir() {
+    public static String getStorageTempDir() {
         return STORAGE_TEMP_DIR;
     }
 
-    public static final String getStorageDir() {
+    public static String getStorageDir() {
         return STORAGE_DIR;
     }
 }

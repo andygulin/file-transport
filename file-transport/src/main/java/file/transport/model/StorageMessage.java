@@ -1,6 +1,6 @@
 package file.transport.model;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import file.transport.execption.TransportRuntimeException;
 import file.transport.model.TransportPiece.WriteMode;
 import file.transport.utils.StorageConfigUtils;
@@ -14,26 +14,28 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.Map.Entry;
 
 public class StorageMessage {
 
-    private static transient final Log log = LogFactory.getLog(StorageMessage.class);
+    private static final Log log = LogFactory.getLog(StorageMessage.class);
     private String directory;
 
     private WriteMode writeMode;
 
-    private Map<String, String> tempFileMap = new LinkedHashMap<>();
+    private final Map<String, String> tempFileMap = new LinkedHashMap<>();
 
-    private Set<String> deleteFileSet = new LinkedHashSet<>();
+    private final Set<String> deleteFileSet = new LinkedHashSet<>();
 
     public StorageMessage() {
         this.directory = "";
     }
 
-    public StorageMessage(String dircetory) {
-        this.directory = FilenameUtils.separatorsToUnix(dircetory);
+    public StorageMessage(String directory) {
+        this.directory = FilenameUtils.separatorsToUnix(directory);
     }
 
     public Iterator<Entry<String, String>> iterator() {
@@ -57,11 +59,11 @@ public class StorageMessage {
         try {
             input = url.openStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             if (log.isErrorEnabled()) {
-                log.error("append url[" + url.toString() + "] error: ", e);
+                log.error("append url[" + url + "] error: ", e);
             }
-            throw new TransportRuntimeException("append url[" + url.toString() + "] error: ", e);
+            throw new TransportRuntimeException("append url[" + url + "] error: ", e);
         }
         this.append(newFileName, input, true);
     }
@@ -71,7 +73,7 @@ public class StorageMessage {
         try {
             input = new BufferedInputStream(new FileInputStream(file));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new TransportRuntimeException("file " + file.getAbsolutePath() + " doesn't exist: ", e);
         }
         this.append(newFileName, input, true);
@@ -88,7 +90,7 @@ public class StorageMessage {
         if (input == null) {
             throw new TransportRuntimeException("append storage message content error: stream is null.");
         }
-        String guid = UUID.randomUUID().toString() + ".ser.tmp";
+        String guid = UUID.randomUUID() + ".ser.tmp";
         File destFile = new File(generateDestFile(guid));
         if (destFile.exists()) {
             throw new TransportRuntimeException("file conflict: " + destFile.getAbsolutePath());
@@ -96,16 +98,16 @@ public class StorageMessage {
         try {
             destFile.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new TransportRuntimeException("create temp storage file error: ", e);
         }
         OutputStream output = null;
         try {
-            output = new BufferedOutputStream(new FileOutputStream(destFile));
+            output = new BufferedOutputStream(Files.newOutputStream(destFile.toPath()));
             IOUtils.copy(input, output);
             this.tempFileMap.put(newFileName, guid);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new TransportRuntimeException("copy stream error: ", e);
         } finally {
             IOUtils.closeQuietly(output);
@@ -134,12 +136,8 @@ public class StorageMessage {
     public String sha() {
         final String json = JSON
                 .toJSONString(new Object[]{this.directory, this.writeMode, this.tempFileMap, this.deleteFileSet});
-        try {
-            byte[] bytes = json.getBytes("UTF-8");
-            return DigestUtils.md5Hex(bytes);
-        } catch (UnsupportedEncodingException e) {
-            throw new TransportRuntimeException(e);
-        }
+        byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
+        return DigestUtils.md5Hex(bytes);
     }
 
     public void destroy() {
